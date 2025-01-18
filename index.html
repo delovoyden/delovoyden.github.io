@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+        <title>Delovoyden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0D001A;
+            --text-color: #ffffff;
+            --banda-color: #FF0055;
+            --leebet-color: #00FFFF;
+            --telegram-color: #00EEFF;
+            --vk-color: #5465FF;
+            --twitch-color: #FF00FF;
+            --card-bg: rgba(13, 0, 26, 0.7);
+            --neon-glow: 0 0 10px rgba(255, 255, 255, 0.3),
+                         0 0 20px rgba(255, 255, 255, 0.2),
+                         0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-color);
+            background-image: 
+                linear-gradient(45deg, rgba(13, 0, 26, 0.7) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(13, 0, 26, 0.7) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(13, 0, 26, 0.7) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(13, 0, 26, 0.7) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-color);
+            text-shadow: var(--neon-glow);
+            animation: flicker 2s infinite alternate;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .social-card {
+            position: relative;
+            height: 250px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card-content {
+            height: 100%;
+            padding: 2rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                var(--banda-color) 90deg,
+                transparent 180deg
+            );
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-card:hover::before {
+            opacity: 1;
+        }
+
+        .social-card i {
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-card span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .card-hover {
+            position: absolute;
+            bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .social-card:hover .card-hover {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .banda i { color: var(--banda-color); text-shadow: 0 0 10px var(--banda-color); }
+        .leebet i { color: var(--leebet-color); text-shadow: 0 0 10px var(--leebet-color); }
+        .telegram i { color: var(--telegram-color); text-shadow: 0 0 10px var(--telegram-color); }
+        .vk i { color: var(--vk-color); text-shadow: 0 0 10px var(--vk-color); }
+        .twitch i { color: var(--twitch-color); text-shadow: 0 0 10px var(--twitch-color); }
+
+        .banda::before { background: conic-gradient(from 0deg, transparent 0deg, var(--banda-color) 90deg, transparent 180deg); }
+        .leebet::before { background: conic-gradient(from 0deg, transparent 0deg, var(--leebet-color) 90deg, transparent 180deg); }
+        .telegram::before { background: conic-gradient(from 0deg, transparent 0deg, var(--telegram-color) 90deg, transparent 180deg); }
+        .vk::before { background: conic-gradient(from 0deg, transparent 0deg, var(--vk-color) 90deg, transparent 180deg); }
+        .twitch::before { background: conic-gradient(from 0deg, transparent 0deg, var(--twitch-color) 90deg, transparent 180deg); }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 0.99;
+                text-shadow: var(--neon-glow);
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .social-card {
+                height: 200px;
+            }
+            
+            .card-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Delovoyden</h1>
+        </header>
+        
+        <div class="social-grid">
+            <a href="https://play-banda-one.com/de29d7d68" 
+               class="social-card banda" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <div class="card-content">
+                    <i class="fas fa-dice"></i>
+                    <span>BANDA Casino</span>
+                    <div class="card-hover">Играть сейчас →</div>
+                </div>
+            </a>
+            
+            <a href="https://play-leebet-one.com/dcbb84c3b" 
+               class="social-card leebet" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <div class="card-content">
+                    <i class="fas fa-coins"></i>
+                    <span>LEEBET Casino</span>
+                    <div class="card-hover">Играть сейчас →</div>
+                </div>
+            </a>
+            
+            <a href="https://t.me/DelovoyDenBeton" 
+               class="social-card telegram" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <div class="card-content">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                    <div class="card-hover">Подписаться →</div>
+                </div>
+            </a>
+
+            <a href="https://vk.com/delovoyden" 
+               class="social-card vk" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <div class="card-content">
+                    <i class="fab fa-vk"></i>
+                    <span>VK</span>
+                    <div class="card-hover">Подписаться →</div>
+                </div>
+            </a>
+
+            <a href="https://www.twitch.tv/delovoyden_" 
+               class="social-card twitch" 
+               target="_blank" 
+               rel="noopener noreferrer">
+                <div class="card-content">
+                    <i class="fab fa-twitch"></i>
+                    <span>Twitch</span>
+                    <div class="card-hover">Смотреть →</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html> 
