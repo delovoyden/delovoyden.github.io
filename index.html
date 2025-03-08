@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delovoyden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5D3FD3;
+            --secondary-color: #FF6B6B;
+            --bg-dark: #121212;
+            --bg-card: #1E1E1E;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+            --error-color: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(93, 63, 211, 0.2), transparent 70%),
+                        radial-gradient(circle at bottom left, rgba(255, 107, 107, 0.15), transparent 70%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .platform-card {
+            grid-column: span 4;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        @media (max-width: 1200px) {
+            .platform-card {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .platform-card {
+                grid-column: span 12;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        .platform-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .platform-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .platform-name {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .platform-username {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .visit-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .platform-card:hover .visit-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 5px 15px rgba(93, 63, 211, 0.3);
+        }
+
+        .instagram::before { background: linear-gradient(to bottom, #833AB4, #FD1D1D, #FCAF45); }
+        .instagram .platform-icon { background: linear-gradient(45deg, #833AB4, #FD1D1D, #FCAF45); }
+        
+        .tiktok::before { background: linear-gradient(to bottom, #00f2ea, #ff0050); }
+        .tiktok .platform-icon { background: linear-gradient(45deg, #00f2ea, #ff0050); }
+        
+        .twitch::before { background: linear-gradient(to bottom, #6441a5, #9146ff); }
+        .twitch .platform-icon { background: linear-gradient(45deg, #6441a5, #9146ff); }
+        
+        .telegram::before { background: linear-gradient(to bottom, #0088cc, #00a0e3); }
+        .telegram .platform-icon { background: linear-gradient(45deg, #0088cc, #00a0e3); }
+        
+        .vk::before { background: linear-gradient(to bottom, #4a76a8, #5c9ce6); }
+        .vk .platform-icon { background: linear-gradient(45deg, #4a76a8, #5c9ce6); }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .github-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .github-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title-section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .title-section p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <h1 class="logo">Delovoyden</h1>
+            </div>
+        </header>
+
+        <div class="title-section">
+            <h2>Социальные сети</h2>
+            <p>Выберите платформу, чтобы перейти на официальную страницу</p>
+        </div>
+
+        <div class="dashboard">
+            <a href="https://www.instagram.com/delovoyden/" target="_blank" class="platform-card instagram">
+                <div class="platform-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <h3 class="platform-name">Instagram</h3>
+                <p class="platform-username">@delovoyden</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://www.tiktok.com/@delovoyden4/video/7478361293292965175?is_from_webapp=1&sender_device=pc" target="_blank" class="platform-card tiktok">
+                <div class="platform-icon">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <h3 class="platform-name">TikTok</h3>
+                <p class="platform-username">@delovoyden4</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://www.twitch.tv/delovoyden_" target="_blank" class="platform-card twitch">
+                <div class="platform-icon">
+                    <i class="fab fa-twitch"></i>
+                </div>
+                <h3 class="platform-name">Twitch</h3>
+                <p class="platform-username">@delovoyden_</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://t.me/DelovoyDenBeton" target="_blank" class="platform-card telegram">
+                <div class="platform-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <h3 class="platform-name">Telegram</h3>
+                <p class="platform-username">@DelovoyDenBeton</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://vk.com/delovoyden" target="_blank" class="platform-card vk">
+                <div class="platform-icon">
+                    <i class="fab fa-vk"></i>
+                </div>
+                <h3 class="platform-name">VK</h3>
+                <p class="platform-username">@delovoyden</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p></p>
+    </footer>
+</body>
+</html> 
+
