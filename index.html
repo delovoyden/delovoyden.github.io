@@ -232,6 +232,472 @@
             margin: 0 auto;
             line-height: 1.6;
         }
+
+        .gta-projects {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .project-card {
+            width: 300px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid transparent;
+        }
+
+        .project-logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: var(--bg-card);
+            position: relative;
+        }
+
+        .project-logo img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .project-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .view-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .project-card:hover .project-logo img {
+            transform: scale(1.1);
+        }
+
+        .project-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tip-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1.5rem 0;
+        }
+
+        .tip-box h5 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--warning-color);
+        }
+
+        .tip-box p {
+            margin-bottom: 0 !important;
+        }
+
+        .manual-footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .visit-official-btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(93, 63, 211, 0.3);
+        }
+
+        .visit-official-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(93, 63, 211, 0.4);
+        }
+
+        .mobile-links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .mobile-links p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .mobile-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .mobile-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(93, 63, 211, 0.3);
+        }
+
+        .manual-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .manual-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .manual-container {
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            background: var(--bg-dark);
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .manual-overlay.active .manual-container {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .manual-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-card);
+        }
+
+        .manual-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-manual {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-manual:hover {
+            color: var(--secondary-color);
+        }
+
+        .manual-content {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(90vh - 80px);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--bg-card);
+        }
+
+        .manual-content::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .manual-content::-webkit-scrollbar-track {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+
+        .manual-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .manual-content::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        .manual-section {
+            display: none;
+        }
+
+        .manual-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .manual-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .manual-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+            opacity: 0.7;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .step-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .step-image {
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            max-height: 300px;
+        }
+
+        .step-image img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.5s ease;
+        }
+
+        .step-image:hover img {
+            transform: scale(1.03);
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: 2px;
+            height: calc(100% + 2rem);
+            background: linear-gradient(to bottom, var(--primary-color), transparent);
+        }
+
+        #gtadom-card .project-logo {
+            background: #1E1E1E;
+            padding: 1rem;
+        }
+
+        #gtadom-card .project-logo img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+        }
+
+        #blackrussia-card .project-logo {
+            background: #1E1E1E;
+            padding: 1rem;
+        }
+
+        #blackrussia-card .project-logo img {
+            display: block;
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .manual-section#blackrussia-manual .manual-logo {
+            display: block;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto 1rem;
+        }
+
+        .manual-section#blackrussia-manual .manual-intro::before {
+            content: none;
+        }
+
+        .fullscreen-capable {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-capable:hover .fullscreen-hint {
+            opacity: 1;
+        }
+
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .fullscreen-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 5px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-fullscreen:hover {
+            color: var(--secondary-color);
+        }
     </style>
 </head>
 <body>
@@ -324,9 +790,301 @@
         </div>
     </div>
 
+    <div class="title-section">
+        <h2>Руководства по GTA проектам</h2>
+        <p>Выберите проект, чтобы узнать как начать играть</p>
+    </div>
+
+    <div class="gta-projects">
+        <div class="project-card" id="gtadom-card" onclick="openManual('gtadom')">
+            <div class="project-logo">
+                <img src="https://gtadom.com/themes/gtadom/images/navbar-logo.svg" alt="GTA DOM" onerror="this.src='images/placeholder.png'">
+            </div>
+            <h3 class="project-name">GTA DOM</h3>
+            <div class="view-btn">
+                <i class="fas fa-book"></i>
+                Открыть мануал
+            </div>
+        </div>
+
+        <div class="project-card" id="blackrussia-card" onclick="openManual('blackrussia')">
+            <div class="project-logo">
+                <img src="images/logo.png" alt="Black Russia" onerror="this.src='images/placeholder.png'">
+            </div>
+            <h3 class="project-name">Black Russia</h3>
+            <div class="view-btn">
+                <i class="fas fa-book"></i>
+                Открыть мануал
+            </div>
+        </div>
+    </div>
+
+    <!-- Manual modal -->
+    <div class="manual-overlay" id="manual-overlay">
+        <div class="manual-container">
+            <div class="manual-header">
+                <h2 id="manual-title">Руководство</h2>
+                <button class="close-manual" onclick="closeManual()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="manual-content">
+                <div class="manual-section" id="gtadom-manual">
+                    <div class="manual-intro">
+                        <img src="https://gtadom.com/themes/gtadom/images/navbar-logo.svg" alt="GTA DOM" class="manual-logo" onerror="this.src='images/placeholder.png'">
+                        <h3>Руководство по игре на сервере GTA DOM</h3>
+                        <p>Добро пожаловать в официальное руководство по игре на проекте "GTA DOM"!</p>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Установка GTA 5</h4>
+                                <p>Для начала вам нужно иметь лицензионную копию игры GTA 5 на вашем компьютере. Вы можете купить её в Epic Games Store, Steam или Rockstar Games Launcher.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Установка клиента RAGE MP</h4>
+                                <p>Скачайте и установите клиент RAGE MP по <a href="https://cdn-msk1.rgsvc.io/public/files/RAGEMultiplayer_Setup.exe" target="_blank">этой ссылке</a>. Запустите скачанный установщик и следуйте инструкциям. Лаунчер автоматически установит все необходимые компоненты.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Подключение к серверу</h4>
+                                <p>Запустите RAGE MP, нажмите на кнопку "Play" и в строке поиска введите "Мой Дом". Выберите наш сервер из списка и нажмите "Connect".</p>
+                                <div class="step-image">
+                                    <img src="images/connect-server.jpg" alt="Connect to Server">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Регистрация на сервере</h4>
+                                <p>При первом подключении вам нужно будет создать аккаунт. Следуйте инструкциям на экране для регистрации.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Начало игры</h4>
+                                <p>После успешной регистрации и входа, вы попадете на стартовую локацию. Следуйте подсказкам на экране для создания персонажа и начала игры.</p>
+                                <p><strong>Важно:</strong> После входа в игру обязательно введите промокод <span style="color: var(--secondary-color); font-weight: bold;">Beton</span>. Для этого нажмите клавишу <strong>F2</strong> и в открывшемся меню введите промокод.</p>
+                                <div class="step-image fullscreen-capable" onclick="openFullscreenImage(this)">
+                                    <img src="images/promo-code.jpg" alt="Ввод промокода">
+                                    <div class="fullscreen-hint"><i class="fas fa-expand"></i> Нажмите для увеличения</div>
+                                </div>
+                                <div class="tip-box">
+                                    <h5><i class="fas fa-lightbulb"></i> Совет</h5>
+                                    <p>Не забудьте прочитать правила сервера, чтобы избежать блокировки вашего аккаунта!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="manual-footer">
+                        <a href="https://gtadom.com/" target="_blank" class="visit-official-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            Посетить официальный сайт
+                        </a>
+                    </div>
+                </div>
+
+                <div class="manual-section" id="blackrussia-manual">
+                    <div class="manual-intro">
+                        <img src="images/logo.png" alt="Black Russia" class="manual-logo" onerror="this.src='images/placeholder.png'">
+                        <h3>Руководство по игре на сервере Black Russia</h3>
+                        <p>Добро пожаловать в официальное руководство по игре на проекте "Black Russia" от Бетона!</p>
+                    </div>
+
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Скачивание лаунчера Black Russia</h4>
+                                <p>Перейдите на <a href="https://blackrussia.online/play.php?youtuber=Beton" target="_blank">официальный сайт</a> и скачайте лаунчер Black Russia. Игра уже включена в клиент, отдельно покупать и устанавливать её не нужно.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Установка клиента</h4>
+                                <p>Запустите скачанный установщик и следуйте инструкциям. Лаунчер автоматически установит все необходимые компоненты.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Запуск лаунчера и регистрация</h4>
+                                <p>После установки запустите Black Russia Launcher. При первом запуске вам нужно будет создать аккаунт. Введите логин, пароль и email для регистрации.</p>
+                                <p>Важно: При регистрации укажите в поле "Промокод": <strong>Beton</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Выбор сервера</h4>
+                                <p>После успешной регистрации и входа в лаунчер, вы увидите список доступных серверов. Выберите сервер для игры, учитывая количество игроков и пинг.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h4>Создание персонажа и начало игры</h4>
+                                <p>Выбрав сервер, нажмите "Играть". При первом входе вам предстоит создать своего персонажа: выбрать внешность, одежду и другие параметры. После создания персонажа вы попадёте в игровой мир.</p>
+                                <div class="tip-box">
+                                    <h5><i class="fas fa-lightbulb"></i> Совет</h5>
+                                    <p>Обязательно ознакомьтесь с правилами сервера, чтобы избежать нарушений и возможного бана.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="manual-footer">
+                        <a href="https://blackrussia.online/play.php?youtuber=Beton" target="_blank" class="visit-official-btn">
+                            <i class="fas fa-download"></i>
+                            Скачать лаунчер (с промокодом)
+                        </a>
+                        <div class="mobile-links">
+                            <p>Мобильные приложения:</p>
+                            <div class="mobile-buttons">
+                                <a href="https://dl.blackcdn.me/launcher.apk" target="_blank" class="mobile-btn">
+                                    <i class="fab fa-android"></i>
+                                    Android
+                                </a>
+                                <a href="https://redirect.appmetrica.yandex.com/serve/965130091770206031" target="_blank" class="mobile-btn">
+                                    <i class="fab fa-apple"></i>
+                                    iOS
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p></p>
     </footer>
+
+
+    <div class="fullscreen-overlay" id="fullscreen-overlay">
+        <button class="close-fullscreen" onclick="closeFullscreenImage()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img src="" alt="" class="fullscreen-image" id="fullscreen-image">
+    </div>
+
+    <script>
+        function openManual(manualId) {
+            const titleElement = document.getElementById('manual-title');
+            if (manualId === 'gtadom') {
+                titleElement.textContent = 'Руководство по GTA DOM';
+            } else if (manualId === 'blackrussia') {
+                titleElement.textContent = 'Руководство по Black Russia';
+            }
+
+            const manualSections = document.querySelectorAll('.manual-section');
+            manualSections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const selectedManual = document.getElementById(manualId + '-manual');
+            if (selectedManual) {
+                selectedManual.classList.add('active');
+            }
+
+            const overlay = document.getElementById('manual-overlay');
+            overlay.classList.add('active');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeManual() {
+            const overlay = document.getElementById('manual-overlay');
+            overlay.classList.remove('active');
+            
+            document.body.style.overflow = '';
+
+            setTimeout(() => {
+                const manualSections = document.querySelectorAll('.manual-section');
+                manualSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+            }, 300);
+        }
+
+        function openFullscreenImage(element) {
+            const img = element.querySelector('img');
+            const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+            const fullscreenImage = document.getElementById('fullscreen-image');
+            
+            fullscreenImage.src = img.src;
+            fullscreenImage.alt = img.alt;
+            
+            fullscreenOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFullscreenImage() {
+            const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+            fullscreenOverlay.classList.remove('active');
+            document.body.style.overflow = 'hidden'; // Keep body overflow hidden because manual is still open
+        }
+
+        document.getElementById('manual-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeManual();
+            }
+        });
+
+        document.getElementById('fullscreen-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFullscreenImage();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('fullscreen-overlay').classList.contains('active')) {
+                    closeFullscreenImage();
+                } else if (document.getElementById('manual-overlay').classList.contains('active')) {
+                    closeManual();
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const manualContent = document.querySelector('.manual-content');
+            
+            if (manualContent) {
+                manualContent.addEventListener('scroll', function() {
+                    const steps = document.querySelectorAll('.step');
+                    
+                    steps.forEach(step => {
+                        const stepPosition = step.getBoundingClientRect();
+                        if (stepPosition.top < window.innerHeight - 100) {
+                            step.style.opacity = '1';
+                            step.style.transform = 'translateY(0)';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
 
