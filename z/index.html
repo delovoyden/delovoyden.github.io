@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТАРГОВАЯ ПЛОЩАДКА ДЕНЧИКА</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0c0c0c;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var initAudio = document.createElement('audio');
+            initAudio.src = '../music/231.MP3';
+            initAudio.preload = 'auto';
+            initAudio.style.display = 'none';
+            document.body.appendChild(initAudio);
+            
+            document.addEventListener('click', function() {
+                initAudio.play().then(function() {
+                    initAudio.pause();
+                    initAudio.currentTime = 0;
+                    console.log('Audio initialized');
+                }).catch(function(e) {
+                    console.log('Audio init error:', e);
+                });
+            }, { once: true });
+        });
+    </script>
+</head>
+<body>
+    <iframe src="../darknet.html" frameborder="0" allowfullscreen 
+            allow="autoplay; ambient-light-sensor; camera; encrypted-media; fullscreen; geolocation; 
+                  gyroscope; magnetometer; microphone; midi; payment; picture-in-picture; 
+                  sync-xhr; usb; vr; accelerometer">
+    </iframe>
+</body>
+</html> 
