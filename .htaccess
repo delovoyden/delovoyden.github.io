@@ -2,6 +2,10 @@ ErrorDocument 404 /404.html
 
 RewriteEngine On
 RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/darknet\.html [NC]
 RewriteRule ^ - [F,L]
 

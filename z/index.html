@@ -24,6 +24,10 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.pathname.endsWith('/z/')) {
+                window.history.replaceState(null, document.title, "/z");
+            }
+            
             var initAudio = document.createElement('audio');
             initAudio.src = '../music/231.MP3';
             initAudio.preload = 'auto';

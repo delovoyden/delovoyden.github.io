@@ -7,7 +7,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const referrer = document.referrer;
-            if (referrer && (referrer.endsWith('/z') || referrer.includes('/z/'))) {
+            if (referrer && (referrer.endsWith('/z') || referrer.endsWith('/z/') || referrer.includes('/z?') || referrer.includes('/z/?'))) {
                 if (window.history && window.history.replaceState) {
                     window.history.replaceState(null, document.title, "/z");
                 }
