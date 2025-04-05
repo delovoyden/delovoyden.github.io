@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
+        var domain = window.location.origin;
+        
         var path = window.location.pathname;
         
         path = path.replace(/^\/|\/$/g, '');
         
         if (path === 'z') {
-            window.location.href = '/darknet.html';
+            window.location.href = domain + '/darknet.html';
+        } else if (path === 'darknet.html') {
         } else {
-            window.location.href = '/index.html';
+            window.location.href = domain + '/index.html';
         }
     </script>
     <style>
@@ -51,12 +54,13 @@
     </div>
 
     <script>
-        // Update the fallback link
         var redirectLink = document.getElementById('redirect-link');
+        var domain = window.location.origin;
+        
         if (path === 'z') {
-            redirectLink.href = '/darknet.html';
+            redirectLink.href = domain + '/darknet.html';
         } else {
-            redirectLink.href = '/index.html';
+            redirectLink.href = domain + '/index.html';
         }
     </script>
 </body>
