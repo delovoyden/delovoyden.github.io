@@ -3,33 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>Page Not Found</title>
     <script>
-        var domain = window.location.origin;
-        
-        var path = window.location.pathname;
-        
-        path = path.replace(/^\/|\/$/g, '');
-        
-        if (path === 'z') {
-            window.location.href = domain + '/darknet.html';
-        } else if (path === 'darknet.html') {
-        } else {
-            window.location.href = domain + '/index.html';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var path = window.location.pathname;
+            path = path.replace(/^\/|\/$/g, '');
+            
+            var contentFrame = document.getElementById('content-frame');
+            var messageEl = document.getElementById('message');
+            
+            // We no longer handle 'z' path here as it has its own index.html
+            // The /z URL is preserved by using the z/index.html file
+            if (path !== 'darknet.html' && path !== '404.html') {
+                window.location.replace('/index.html');
+            }
+        });
     </script>
     <style>
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'Montserrat', sans-serif;
             background-color: #121212;
             color: #FFFFFF;
+        }
+        #content-frame {
+            display: none;
+            border: none;
+            width: 100%;
+            height: 100vh;
+        }
+        #message {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            padding: 20px;
             text-align: center;
+            padding: 20px;
         }
         .loader {
             border: 5px solid rgba(255, 255, 255, 0.3);
@@ -47,21 +59,12 @@
     </style>
 </head>
 <body>
-    <div>
+    <iframe id="content-frame" frameborder="0" allowfullscreen></iframe>
+    
+    <div id="message">
         <div class="loader"></div>
-        <h2>Redirecting...</h2>
-        <p>If you are not redirected automatically, click <a id="redirect-link" href="/">here</a>.</p>
+        <h2>Page Not Found</h2>
+        <p>Redirecting to the home page. If you are not redirected automatically, click <a href="/index.html">here</a>.</p>
     </div>
-
-    <script>
-        var redirectLink = document.getElementById('redirect-link');
-        var domain = window.location.origin;
-        
-        if (path === 'z') {
-            redirectLink.href = domain + '/darknet.html';
-        } else {
-            redirectLink.href = domain + '/index.html';
-        }
-    </script>
 </body>
 </html> 
