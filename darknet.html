@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delovoyden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00ff41;
+            --secondary-color: #ff073a;
+            --bg-dark: #0c0c0c;
+            --bg-card: #1a1a1a;
+            --text-primary: #dfdfdf;
+            --text-secondary: rgba(223, 223, 223, 0.7);
+            --highlight: #00ff41;
+            --error: #ff073a;
+            --border: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                transparent 0%,
+                rgba(0, 0, 0, 0.3) 100%
+            );
+            z-index: 9998;
+            pointer-events: none;
+        }
+
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch {
+            position: relative;
+            animation: glitch 1s linear infinite;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 var(--error), -0.05em -0.025em 0 var(--highlight);
+                transform: translate(0);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 var(--error), -0.05em -0.025em 0 var(--highlight);
+                transform: translate(0);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 var(--error), 0.025em 0.025em 0 var(--highlight);
+                transform: translate(-0.025em, 0.025em);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 var(--error), 0.025em 0.025em 0 var(--highlight);
+                transform: translate(-0.025em, 0.025em);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 var(--error), 0.05em 0 0 var(--highlight);
+                transform: translate(0.025em, 0);
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 var(--error), 0.05em 0 0 var(--highlight);
+                transform: translate(0.025em, 0);
+            }
+            100% {
+                text-shadow: 0.05em 0 0 var(--error), -0.05em -0.025em 0 var(--highlight);
+                transform: translate(0);
+            }
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(0, 255, 65, 0.1),
+                transparent
+            );
+            opacity: 0.6;
+            z-index: 9997;
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .terminal-cursor {
+            animation: blink 1s step-end infinite;
+            color: var(--primary-color);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verification-container {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verification-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--error), var(--highlight), var(--error));
+            animation: borderGlow 2s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .verification-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .verification-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--highlight);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .verification-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .verification-step {
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .verification-btn {
+            background: none;
+            border: 2px solid var(--highlight);
+            color: var(--highlight);
+            padding: 1rem 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+            margin: 2rem auto;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verification-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 65, 0.2),
+                transparent
+            );
+            transition: all 0.3s ease;
+        }
+
+        .verification-btn:hover {
+            background-color: rgba(0, 255, 65, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .verification-btn:hover::before {
+            left: 100%;
+        }
+
+        .verification-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .verification-image {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verification-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+            filter: brightness(0.7) contrast(1.2);
+        }
+
+        .verification-image.rotating img {
+            animation: none;
+        }
+
+        @keyframes rotateImage {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .verification-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+            border-color: var(--highlight);
+        }
+
+        .verification-image:hover img {
+            filter: brightness(1) contrast(1);
+        }
+
+        .darknet-content {
+            display: none;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: 2px;
+            background: linear-gradient(to right, var(--highlight), transparent);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.2);
+            border-color: var(--highlight);
+        }
+
+        .category-card.clicked {
+            transform: scale(0.95);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+            border-color: var(--highlight);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+
+        .category-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .featured-products {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--highlight);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image {
+            margin-bottom: 1rem;
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: var(--bg-dark);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .product-rating {
+            margin-bottom: 1rem;
+        }
+
+        .buy-btn {
+            background: none;
+            border: 2px solid var(--highlight);
+            color: var(--highlight);
+            padding: 0.5rem 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+
+        .buy-btn:hover {
+            background-color: rgba(0, 255, 65, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .buy-btn.clicked {
+            background-color: rgba(0, 255, 65, 0.3);
+            transform: scale(0.95);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+        }
+
+        .disclaimer {
+            margin-top: 2rem;
+            padding: 2rem;
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            border: 2px solid var(--border);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--border);
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--highlight);
+            width: 0;
+            transition: width 0.5s ease;
+        }
+
+        .blink {
+            animation: blink-error 0.2s linear 3;
+        }
+
+        @keyframes blink-error {
+            0%, 100% { border-color: var(--border); }
+            50% { border-color: var(--error); }
+        }
+
+        .terminal-text {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--highlight);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin: 2rem 0;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .verification-images {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .verification-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.2);
+            border-color: var(--highlight);
+        }
+
+        .product-card.clicked {
+            transform: scale(0.95);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
+            border-color: var(--highlight);
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-line"></div>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <div class="container">
+        <audio id="clickSound" src="music/231.mp3" preload="auto"></audio>
+        
+        <div class="verification-container" id="verification">
+            <div class="verification-header">
+                <div class="glitch-wrapper">
+                    <h1 class="glitch">ТАРГОВАЯ ПЛОЩАДКА ДЕНЧИКА</h1>
+                </div>
+            </div>
+
+            <div class="verification-step" id="step-initial">
+                <p class="terminal-text">
+                    > Обнаружена попытка входа в систему...<br>
+                    > Инициализация протокола безопасности...<br>
+                    > Для доступа требуется верификация личности<span class="terminal-cursor">_</span>
+                </p>
+                <button class="verification-btn" onclick="startVerification()">
+                    ПРОЙТИ ВЕРИФИКАЦИЮ
+                </button>
+            </div>
+
+            <div class="verification-step" id="step-verification" style="display: none;">
+                <p class="terminal-text">
+                    > Запуск протокола верификации...<br>
+                </p>
+                <div class="progress-bar">
+                    <div class="progress" id="verification-progress"></div>
+                </div>
+            </div>
+
+            <div class="verification-step" id="step-question" style="display: none;">
+                <p class="terminal-text">
+                    > Верификация инициализирована<br>
+                    > Система запрашивает подтверждение личности<br>
+                    > Выберите правильное изображение<span class="terminal-cursor">_</span>
+                </p>
+                <div class="question">ГДЕ SAMWELL?</div>
+                
+                <div class="verification-images">
+                    <div class="verification-image" onclick="checkImage(true)">
+                        <img src="photo/1.jpg" alt="Verification Image">
+                    </div>
+                    <div class="verification-image" onclick="checkImage(false)">
+                        <img src="photo/2.jpg" alt="Verification Image">
+                    </div>
+                    <div class="verification-image" onclick="checkImage(false)">
+                        <img src="photo/3.jpg" alt="Verification Image">
+                    </div>
+                    <div class="verification-image" onclick="checkImage(false)">
+                        <img src="photo/4.jpg" alt="Verification Image">
+                    </div>
+                    <div class="verification-image" onclick="checkImage(false)">
+                        <img src="photo/5.jpg" alt="Verification Image">
+                    </div>
+                    <div class="verification-image" onclick="checkImage(false)">
+                        <img src="photo/6.png" alt="Verification Image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="verification-step" id="step-success" style="display: none;">
+                <p class="terminal-text">
+                    > Верификация успешна<br>
+                    > Доступ предоставлен<br>
+                    > Добро пожаловать на ТАРГОВАЯ ПЛОЩАДКА ДЕНЧИКА<br>
+                    > Загрузка данных...<span class="terminal-cursor">_</span>
+                </p>
+                <div class="progress-bar">
+                    <div class="progress" id="access-progress"></div>
+                </div>
+            </div>
+
+            <div class="verification-step" id="step-failure" style="display: none;">
+                <p class="terminal-text">
+                    > Верификация не пройдена<br>
+                    > Обнаружена попытка несанкционированного доступа<br>
+                    > IP адрес записан<br>
+                    > Перезапуск системы через 5 секунд<span class="terminal-cursor">_</span>
+                </p>
+                <div class="progress-bar">
+                    <div class="progress" id="failure-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="darknet-content" id="darknet-content">
+            <div class="verification-header">
+                <div class="glitch-wrapper">
+                    <h1 class="glitch">ТАРГОВАЯ ПЛОЩАДКА ДЕНЧИКА</h1>
+                </div>
+                <p>Доступ предоставлен • Добро пожаловать в даркнет</p>
+            </div>
+
+            <div class="category-grid">
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="category-name">Виртуальная валюта</h3>
+                    <p class="category-desc">Криптовалюта, игровое золото, внутриигровые деньги</p>
+                </div>
+                
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="category-name">Листы коки</h3>
+                    <p class="category-desc">Высококачественные листы для ритуальных целей, из Перу</p>
+                </div>
+                
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3 class="category-name">Таблетки</h3>
+                    <p class="category-desc">Широкий ассортимент для любых потребностей</p>
+                </div>
+                
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-smoking"></i>
+                    </div>
+                    <h3 class="category-name">Курительные смеси</h3>
+                    <p class="category-desc">Экзотические сорта со всего мира</p>
+                </div>
+                
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3 class="category-name">Порошки и соли</h3>
+                    <p class="category-desc">Чистейший продукт без примесей, доказанная репутация</p>
+                </div>
+                
+                <div class="category-card" data-href="https://vk.com/delovoyden">
+                    <div class="category-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3 class="category-name">Кардинг</h3>
+                    <p class="category-desc">Клоны карт, данные для оплаты, дампы</p>
+                </div>
+            </div>
+
+            <div class="featured-products">
+                <h2 class="section-title">Популярные товары</h2>
+                
+                <div class="product-grid">
+                    <div class="product-card" data-href="https://vk.com/delovoyden">
+                        <div class="product-image">
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">Премиум листы коки</h4>
+                            <p class="product-price">0.0045 BTC / 100г</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(126)</span>
+                            </div>
+                            <button class="buy-btn" data-href="https://vk.com/delovoyden">Купить</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-href="https://vk.com/delovoyden">
+                        <div class="product-image">
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">Синие кристаллы</h4>
+                            <p class="product-price">0.0078 BTC / 5г</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(218)</span>
+                            </div>
+                            <button class="buy-btn" data-href="https://vk.com/delovoyden">Купить</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-href="https://vk.com/delovoyden">
+                        <div class="product-image">
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4 class="product-name">БТК Микс</h4>
+                            <p class="product-price">0.0125 BTC / 0.015 BTC</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(84)</span>
+                            </div>
+                            <button class="buy-btn" data-href="https://vk.com/delovoyden">Купить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>ТАРГОВАЯ ПЛОЩАДКА ДЕНЧИКА • Все транзакции анонимны • Оплата только в криптовалюте • Гарант-сервис • IN GTA 5 RolePlay </p>
+                <a href="index.html" style="color: var(--text-secondary); text-decoration: none; margin-top: 10px; display: inline-block;">Вернуться назад</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        setInterval(draw, 30);
+
+        let rotationInterval;
+        let correctImageIndex = 0;
+        
+        function shuffleVerificationImages() {
+            const imagesContainer = document.querySelector('.verification-images');
+            const imageElements = Array.from(imagesContainer.querySelectorAll('.verification-image'));
+            
+            const imagePaths = [
+                'photo/1.jpg',
+                'photo/2.jpg',
+                'photo/3.jpg',
+                'photo/4.jpg',
+                'photo/5.jpg',
+                'photo/6.png'
+            ];
+            
+            for (let i = imagePaths.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [imagePaths[i], imagePaths[j]] = [imagePaths[j], imagePaths[i]];
+            }
+            
+            correctImageIndex = imagePaths.indexOf('photo/1.jpg');
+            
+            imageElements.forEach((element, index) => {
+                const imgElement = element.querySelector('img');
+                imgElement.src = imagePaths[index];
+                
+                element.onclick = index === correctImageIndex ? 
+                    () => checkImage(true) : 
+                    () => checkImage(false);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            shuffleVerificationImages();
+            
+            // Setup audio and redirection functionality
+            const audio = document.getElementById('clickSound');
+            if (!audio) {
+                console.error('Audio element not found!');
+            }
+            
+            // Add click handlers to all category cards
+            const categoryCards = document.querySelectorAll('.category-card');
+            console.log('Found ' + categoryCards.length + ' category cards');
+            
+            categoryCards.forEach((card, index) => {
+                card.addEventListener('click', function(e) {
+                    console.log('Category card clicked: ' + index);
+                    playAudio();
+                    addClickEffect(card);
+                    
+                    // Get the URL from data-href attribute
+                    const url = card.getAttribute('data-href');
+                    
+                    // Delay redirect to allow audio to play and animation to show
+                    setTimeout(() => {
+                        if (url) {
+                            window.open(url, '_blank');
+                        } else {
+                            window.open('https://vk.com/delovoyden', '_blank');
+                        }
+                    }, 300);
+                });
+            });
+            
+            // Add click handlers to all product cards
+            const productCards = document.querySelectorAll('.product-card');
+            console.log('Found ' + productCards.length + ' product cards');
+            
+            productCards.forEach((card, index) => {
+                card.addEventListener('click', function(e) {
+                    // Only trigger if the button itself wasn't clicked
+                    if (!e.target.classList.contains('buy-btn')) {
+                        console.log('Product card clicked: ' + index);
+                        playAudio();
+                        addClickEffect(card);
+                        
+                        // Get the URL from data-href attribute
+                        const url = card.getAttribute('data-href');
+                        
+                        // Delay redirect to allow audio to play and animation to show
+                        setTimeout(() => {
+                            if (url) {
+                                window.open(url, '_blank');
+                            } else {
+                                window.open('https://vk.com/delovoyden', '_blank');
+                            }
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Add click handlers to all buy buttons
+            const buyButtons = document.querySelectorAll('.buy-btn');
+            console.log('Found ' + buyButtons.length + ' buy buttons');
+            
+            buyButtons.forEach((button, index) => {
+                button.addEventListener('click', function(e) {
+                    console.log('Buy button clicked: ' + index);
+                    e.stopPropagation(); // Prevent the product card click from firing
+                    playAudio();
+                    addClickEffect(button);
+                    
+                    // Get the URL from data-href attribute
+                    const url = button.getAttribute('data-href');
+                    
+                    // Delay redirect to allow audio to play and animation to show
+                    setTimeout(() => {
+                        if (url) {
+                            window.open(url, '_blank');
+                        } else {
+                            window.open('https://vk.com/delovoyden', '_blank');
+                        }
+                    }, 300);
+                });
+            });
+        });
+        
+        function addClickEffect(element) {
+            element.classList.add('clicked');
+            setTimeout(() => {
+                element.classList.remove('clicked');
+            }, 300);
+        }
+        
+        function playAudio() {
+            const audio = document.getElementById('clickSound');
+            
+            // Reset the audio playback to start from beginning
+            try {
+                audio.pause();
+                audio.currentTime = 0;
+                
+                // Play the audio with a promise to handle autoplay restrictions
+                const playPromise = audio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Playback started successfully
+                    }).catch(error => {
+                        console.log("Audio playback was prevented: ", error);
+                        // Auto-play was prevented, show a play button or handle as needed
+                    });
+                }
+            } catch (e) {
+                console.log("Error playing audio: ", e);
+            }
+        }
+
+        function startVerification() {
+            shuffleVerificationImages();
+            
+            document.getElementById('step-initial').style.display = 'none';
+            document.getElementById('step-verification').style.display = 'block';
+            
+            let progress = 0;
+            const progressBar = document.getElementById('verification-progress');
+            
+            const progressInterval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        document.getElementById('step-verification').style.display = 'none';
+                        document.getElementById('step-question').style.display = 'block';
+                    }, 500);
+                }
+            }, 30);
+        }
+
+        function checkImage(isCorrect) {            
+            if (isCorrect) {
+                document.getElementById('step-question').style.display = 'none';
+                document.getElementById('step-success').style.display = 'block';
+                
+                let progress = 0;
+                const progressBar = document.getElementById('access-progress');
+                
+                const progressInterval = setInterval(() => {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        setTimeout(() => {
+                            document.getElementById('verification').style.display = 'none';
+                            document.getElementById('darknet-content').style.display = 'block';
+                            
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            });
+                            
+                            window.history.pushState({}, '', '#market');
+                            
+                            const flashElement = document.createElement('div');
+                            flashElement.style.position = 'fixed';
+                            flashElement.style.top = '0';
+                            flashElement.style.left = '0';
+                            flashElement.style.width = '100%';
+                            flashElement.style.height = '100%';
+                            flashElement.style.backgroundColor = 'rgba(0, 255, 65, 0.2)';
+                            flashElement.style.zIndex = '10000';
+                            flashElement.style.pointerEvents = 'none';
+                            flashElement.style.transition = 'opacity 0.5s ease';
+                            document.body.appendChild(flashElement);
+                            
+                            setTimeout(() => {
+                                flashElement.style.opacity = '0';
+                                setTimeout(() => {
+                                    document.body.removeChild(flashElement);
+                                }, 500);
+                            }, 100);
+                        }, 500);
+                    }
+                }, 30);
+            } else {
+                const images = document.querySelectorAll('.verification-image');
+                images.forEach(img => {
+                    img.classList.add('blink');
+                    setTimeout(() => {
+                        img.classList.remove('blink');
+                    }, 600);
+                });
+                
+                document.getElementById('step-question').style.display = 'none';
+                document.getElementById('step-failure').style.display = 'block';
+                
+                let progress = 0;
+                const progressBar = document.getElementById('failure-progress');
+                
+                const progressInterval = setInterval(() => {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        setTimeout(() => {
+                            document.getElementById('step-failure').style.display = 'none';
+                            document.getElementById('step-initial').style.display = 'block';
+                        }, 500);
+                    }
+                }, 50);
+            }
+        }
+    </script>
+</body>
+</html> 
