@@ -1,5 +1,22 @@
 # Set custom 404 error document
 ErrorDocument 404 /404.html
 
-# Don't redirect /z, let it be handled by z/index.html
-# This preserves the URL in the address bar 
+# Включить модуль перезаписи
+RewriteEngine On
+RewriteBase /
+
+# If the request is for /z, serve darknet.html but keep URL as /z
+RewriteCond %{REQUEST_URI} ^/z/?$
+RewriteRule ^z/?$ darknet.html [L]
+
+# Ensure /z/ can access assets correctly
+RewriteCond %{REQUEST_URI} ^/z/(.*)$
+RewriteRule ^z/(.*)$ $1 [L]
+
+# Prevent direct access to darknet.html
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/darknet\.html [NC]
+RewriteRule ^ - [F,L]
+
+# Ensure audio files are served with proper MIME types
+AddType audio/mpeg .mp3 .MP3
+AddType audio/wav .wav .WAV 
