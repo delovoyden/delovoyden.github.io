@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delovoyden</title>
     <script>
-        // Preserve the /z URL if the page was accessed through it
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if we were redirected from /z
             const referrer = document.referrer;
             if (referrer && (referrer.endsWith('/z') || referrer.includes('/z/'))) {
-                // Keep the URL as /z
                 if (window.history && window.history.replaceState) {
                     window.history.replaceState(null, document.title, "/z");
                 }
@@ -905,11 +902,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             shuffleVerificationImages();
             
-            // Setup audio and redirection functionality
             const audio = document.getElementById('clickSound');
             if (!audio) {
                 console.error('Audio element not found!');
-                // Создадим аудиоэлемент, если он не существует
                 const newAudio = document.createElement('audio');
                 newAudio.id = 'clickSound';
                 newAudio.src = 'music/231.MP3';
@@ -917,7 +912,6 @@
                 document.body.appendChild(newAudio);
             }
             
-            // Инициализация звука при первом клике
             document.body.addEventListener('click', function() {
                 const audio = document.getElementById('clickSound');
                 if (audio) {
@@ -931,7 +925,6 @@
                 }
             }, { once: true });
             
-            // Add click handlers to all category cards
             const categoryCards = document.querySelectorAll('.category-card');
             console.log('Found ' + categoryCards.length + ' category cards');
             
@@ -941,10 +934,8 @@
                     playAudio();
                     addClickEffect(card);
                     
-                    // Get the URL from data-href attribute
                     const url = card.getAttribute('data-href');
                     
-                    // Delay redirect to allow audio to play and animation to show
                     setTimeout(() => {
                         if (url) {
                             window.open(url, '_blank');
@@ -955,22 +946,18 @@
                 });
             });
             
-            // Add click handlers to all product cards
             const productCards = document.querySelectorAll('.product-card');
             console.log('Found ' + productCards.length + ' product cards');
             
             productCards.forEach((card, index) => {
                 card.addEventListener('click', function(e) {
-                    // Only trigger if the button itself wasn't clicked
                     if (!e.target.classList.contains('buy-btn')) {
                         console.log('Product card clicked: ' + index);
                         playAudio();
                         addClickEffect(card);
                         
-                        // Get the URL from data-href attribute
                         const url = card.getAttribute('data-href');
                         
-                        // Delay redirect to allow audio to play and animation to show
                         setTimeout(() => {
                             if (url) {
                                 window.open(url, '_blank');
@@ -982,21 +969,18 @@
                 });
             });
             
-            // Add click handlers to all buy buttons
             const buyButtons = document.querySelectorAll('.buy-btn');
             console.log('Found ' + buyButtons.length + ' buy buttons');
             
             buyButtons.forEach((button, index) => {
                 button.addEventListener('click', function(e) {
                     console.log('Buy button clicked: ' + index);
-                    e.stopPropagation(); // Prevent the product card click from firing
+                    e.stopPropagation();
                     playAudio();
                     addClickEffect(button);
                     
-                    // Get the URL from data-href attribute
                     const url = button.getAttribute('data-href');
                     
-                    // Delay redirect to allow audio to play and animation to show
                     setTimeout(() => {
                         if (url) {
                             window.open(url, '_blank');
@@ -1018,18 +1002,15 @@
         function playAudio() {
             const audio = document.getElementById('clickSound');
             
-            // Проверим существует ли элемент
             if (!audio) {
                 console.error('Audio element not found!');
                 return;
             }
             
-            // Загрузка аудиофайла, если он не загружен
             if (!audio.src || audio.src === '') {
                 audio.src = 'music/231.MP3';
             }
             
-            // Добавим обработчик событий для инициализации звука по клику
             if (!window.audioInitialized) {
                 document.body.addEventListener('click', function() {
                     const initAudio = document.createElement('audio');
@@ -1041,21 +1022,17 @@
                 }, { once: true });
             }
             
-            // Reset the audio playback to start from beginning
             try {
                 audio.pause();
                 audio.currentTime = 0;
                 
-                // Play the audio with a promise to handle autoplay restrictions
                 const playPromise = audio.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.then(_ => {
-                        // Playback started successfully
                         console.log('Audio played successfully');
                     }).catch(error => {
                         console.log("Audio playback was prevented: ", error);
-                        // Try to create a new audio element and play it
                         const newAudio = new Audio('music/231.MP3');
                         newAudio.play().catch(e => console.log('New audio failed too:', e));
                     });

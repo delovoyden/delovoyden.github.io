@@ -12,9 +12,7 @@
             var contentFrame = document.getElementById('content-frame');
             var messageEl = document.getElementById('message');
             
-            // We no longer handle 'z' path here as it has its own index.html
-            // The /z URL is preserved by using the z/index.html file
-            if (path !== 'darknet.html' && path !== '404.html') {
+            if (path !== 'darknet.html' && path !== '404.html' && path !== 'z') {
                 window.location.replace('/index.html');
             }
         });
