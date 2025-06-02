@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commands</title>
+    <title>Delovoyden Bot Commands</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -385,13 +385,43 @@
                 <div class="command-card" data-keywords="llm ai нейросеть искусственный интеллект gpt">
                     <div class="command-name">
                         <div class="command-icon"><i class="fas fa-brain"></i></div>
-                        !llm
+                        !ai
                     </div>
                     <p class="command-description">Отправка запроса к нейросети прямо в чате</p>
                     <div class="command-examples">
                         <div class="example-title">Примеры:</div>
-                        <div class="example">!llm расскажи анекдот</div>
-                        <div class="example">!llm что лучше AMD или Intel</div>
+                        <div class="example">!ai расскажи анекдот</div>
+                        <div class="example">!ai что лучше AMD или Intel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="command-group">
+            <h3 class="group-title">
+                <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+                Валюта и конвертация
+            </h3>
+            <div class="commands-grid">
+                <div class="command-card" data-keywords="курс валюты валюта currency">
+                    <div class="command-name">
+                        <div class="command-icon"><i class="fas fa-chart-line"></i></div>
+                        !курс
+                    </div>
+                    <p class="command-description">Показывает текущий курс валют: доллар, биткоин, евро</p>
+                    <div class="example">!курс</div>
+                </div>
+                
+                <div class="command-card" data-keywords="доллар usd конвертация обмен">
+                    <div class="command-name">
+                        <div class="command-icon"><i class="fas fa-dollar-sign"></i></div>
+                        !p2p
+                    </div>
+                    <p class="command-description">Конвертирует валюту между рублями и долларами</p>
+                    <div class="command-examples">
+                        <div class="example-title">Примеры:</div>
+                        <div class="example">!p2p 100Р - Конвертирует 100 рублей в доллары</div>
+                        <div class="example">!p2p 50Д - Конвертирует 50 долларов в рубли</div>
                     </div>
                 </div>
             </div>
@@ -419,36 +449,6 @@
                     </div>
                     <p class="command-description">Выдает ссылку на магазин Дениса</p>
                     <div class="example">!shop</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="command-group">
-            <h3 class="group-title">
-                <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
-                Валюта и конвертация
-            </h3>
-            <div class="commands-grid">
-                <div class="command-card" data-keywords="курс валюты валюта currency">
-                    <div class="command-name">
-                        <div class="command-icon"><i class="fas fa-chart-line"></i></div>
-                        !курс
-                    </div>
-                    <p class="command-description">Показывает текущий курс валют: доллар, биткоин, евро</p>
-                    <div class="example">!курс</div>
-                </div>
-                
-                <div class="command-card" data-keywords="доллар usd конвертация обмен">
-                    <div class="command-name">
-                        <div class="command-icon"><i class="fas fa-dollar-sign"></i></div>
-                        !usd
-                    </div>
-                    <p class="command-description">Конвертирует валюту между рублями и долларами</p>
-                    <div class="command-examples">
-                        <div class="example-title">Примеры:</div>
-                        <div class="example">!usd 100Р - Конвертирует 100 рублей в доллары</div>
-                        <div class="example">!usd 50Д - Конвертирует 50 долларов в рубли</div>
-                    </div>
                 </div>
             </div>
         </div>
