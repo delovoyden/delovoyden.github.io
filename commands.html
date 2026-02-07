@@ -1,359 +1,643 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#1E1E1E" />
-  <meta name="description" content="Команды чат-бота: клипы, курсы валют, p2p-конвертер, ИИ-ответы и ссылки." />
+  <meta name="description"
+    content="Команды чат-бота: клипы, курсы валют, p2p-конвертер, ИИ-ответы, долги и автофункции." />
   <title>Delovoyden — Команды чат-бота</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-    <style>
-        :root {
-      --primary: #735cff;
-      --primary-700: #5d48ff;
-      --secondary: #ff6b6b;
-      --bg-0: #0e0f13;
-      --bg-1: #141622;
-      --bg-2: #1b1e2d;
-      --text-0: #ffffff;
-      --text-1: rgba(255, 255, 255, 0.82);
-      --text-2: rgba(255, 255, 255, 0.6);
-      --success: #23d18b;
-      --warn: #ffcc00;
-      --danger: #ff4d4f;
-      --muted: #2a2f45;
-      --card-radius: 16px;
-      --shadow-1: 0 20px 50px rgba(0, 0, 0, 0.35);
-      --shadow-2: 0 30px 60px rgba(0, 0, 0, 0.45);
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0c0c0f;
+      --bg-card: rgba(255, 255, 255, 0.02);
+      --bg-card-hover: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(99, 102, 241, 0.3);
+      --text: #fff;
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --text-dimmed: rgba(255, 255, 255, 0.4);
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --accent-secondary: #8b5cf6;
+      --success: #22c55e;
+      --warn: #eab308;
+      --danger: #ef4444;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-            margin: 0;
-      font-family: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-      background: var(--bg-1);
-      color: var(--text-0);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(255,255,255,0.35) transparent;
-    }
-
-    body::-webkit-scrollbar { width: 12px; height: 12px; }
-    body::-webkit-scrollbar-track { background: transparent; }
-    body::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 999px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 6px 20px rgba(0,0,0,0.35);
-    }
-    body::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0.12));
-      border-color: rgba(255,255,255,0.30);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
     }
 
     .bg {
-            position: fixed;
+      position: fixed;
       inset: 0;
-            z-index: -1;
-      pointer-events: none;
-      background: radial-gradient(1200px 600px at 100% -10%, rgba(115, 92, 255, 0.18), transparent),
-                  radial-gradient(900px 600px at -10% 100%, rgba(255, 107, 107, 0.14), transparent),
-                  linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
-      background-attachment: fixed, fixed, fixed;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%);
+      animation: pulse 8s ease-in-out infinite alternate;
     }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 32px 24px 60px; }
+    @keyframes pulse {
+      0% {
+        opacity: 0.6;
+      }
 
-        header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-            align-items: center;
-      gap: 16px;
-      margin-bottom: 28px;
+      100% {
+        opacity: 1;
+      }
     }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+    }
+
     .brand {
-      display: flex; align-items: center; gap: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-        .logo {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: grid; place-items: center;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      box-shadow: var(--shadow-1);
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: var(--text);
+      font-size: 1rem;
     }
-    .brand-title { font-weight: 700; font-size: 1.4rem; letter-spacing: 0.3px; }
-        .back-button {
-      display: inline-flex; align-items: center; gap: 10px;
-      padding: 10px 16px; border-radius: 12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+
+    .brand-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--text-0); text-decoration: none; font-weight: 500;
-      transition: 200ms ease;
+      border-radius: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
     }
-    .back-button:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.18); }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--text);
+    }
 
     .hero {
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: var(--shadow-1);
-      margin-bottom: 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
     }
-    .hero h1 { font-size: 2.2rem; margin: 0 0 10px; font-weight: 700; }
-    .hero p { margin: 0; color: var(--text-2); line-height: 1.65; }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
 
     .toolbar {
-      display: grid; grid-template-columns: 1fr; gap: 14px; margin: 22px 0 30px;
+      margin: 1.5rem 0 2rem;
     }
-    .search-box { position: relative; }
+
+    .search-box {
+      position: relative;
+    }
+
     .search-input {
-      width: 100%; padding: 14px 16px 14px 46px; border-radius: 14px;
-      background: var(--bg-2); border: 1px solid rgba(255,255,255,0.08);
-      color: var(--text-0); font-size: 1rem; outline: none; transition: 200ms ease;
-      font-family: 'Inter', 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial, sans-serif;
-      font-weight: 500; letter-spacing: 0.2px;
-    }
-    .search-input::placeholder { color: var(--text-2); font-weight: 400; letter-spacing: 0.2px; }
-    .search-input:focus { border-color: rgba(115, 92, 255, 0.55); box-shadow: 0 0 0 4px rgba(115,92,255,0.12); }
-    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-2); }
-
-    .groups { display: grid; gap: 34px; }
-    .group { display: grid; gap: 16px; }
-    .group-title { display: flex; align-items: center; gap: 12px; font-size: 1.4rem; font-weight: 700; }
-    .group-title .icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); box-shadow: var(--shadow-1); }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
-    .card {
-            position: relative;
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--card-radius);
-      padding: 18px;
-      box-shadow: var(--shadow-1);
-      transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
-      overflow: hidden;
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
     }
-    .card:hover { transform: translateY(-4px); border-color: rgba(115, 92, 255, 0.45); box-shadow: var(--shadow-2); }
-    .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+    .search-input::placeholder {
+      color: var(--text-dimmed);
+    }
+
+    .search-input:focus {
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dimmed);
+    }
+
+    .groups {
+      display: grid;
+      gap: 2.5rem;
+    }
+
+    .group {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .group-title .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+    }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.5rem;
+    }
+
     .chip {
-      min-width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-size: 1.1rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(99, 102, 241, 0.2);
+      color: var(--accent-light);
+      font-size: 0.95rem;
     }
-    .cmd { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.2px; }
-    .desc { color: var(--text-2); margin: 6px 0 12px; line-height: 1.6; }
-    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
-    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 0.84rem; color: var(--text-1); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); }
-    .badge .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--muted); }
-    .badge.success .dot { background: var(--success); }
-    .badge.warn .dot { background: var(--warn); }
-    .badge.danger .dot { background: var(--danger); }
 
-    .examples { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; }
-    .examples h5 { margin: 0 0 8px; font-size: 0.9rem; color: var(--text-2); }
-    .ex { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; background: var(--bg-0); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid var(--secondary); padding: 8px 10px; border-radius: 8px; font-size: 0.95rem; margin: 6px 0; color: var(--text-1); }
+    .chip.auto {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+    }
 
-    .note { font-size: 0.9rem; color: var(--text-2); margin-top: 8px; }
-    footer { margin-top: 42px; color: var(--text-2); text-align: center; font-size: 0.9rem; padding: 22px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+    .chip.giveaway {
+      background: rgba(234, 179, 8, 0.2);
+      color: #facc15;
+    }
 
-    @media (max-width: 720px) { .hero h1 { font-size: 1.8rem; } }
-    </style>
+    .cmd {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+      line-height: 1.5;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0.75rem 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .badge.success .dot {
+      background: var(--success);
+    }
+
+    .badge.warn .dot {
+      background: var(--warn);
+    }
+
+    .badge.info .dot {
+      background: #3b82f6;
+    }
+
+    .examples {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+    }
+
+    .examples h5 {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .ex {
+      font-family: ui-monospace, monospace;
+      background: rgba(0, 0, 0, 0.3);
+      border-left: 2px solid var(--accent-secondary);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 4px 0;
+    }
+
+    .note {
+      font-size: 0.8rem;
+      color: var(--text-dimmed);
+      margin-top: 0.75rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        padding: 1rem;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .back-button {
+        justify-content: center;
+      }
+
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="bg"></div>
-    <div class="container">
-        <header>
+  <div class="container">
+    <header>
       <div class="brand">
         <div class="logo"><i class="fa-solid fa-bolt"></i></div>
         <div class="brand-title">Delovoyden</div>
-            </div>
+      </div>
       <a href="https://delovoyden.bet" class="back-button"><i class="fa-solid fa-arrow-left"></i> На главную</a>
-        </header>
+    </header>
 
     <section class="hero">
       <h1>Команды чат-бота</h1>
-      <p>Используйте команды ниже, чтобы взаимодействовать с ботом: создавать клипы, узнавать курсы, конвертировать суммы, запрашивать ответы нейросети и получать важные ссылки.</p>
+      <p>Используйте команды для создания клипов, конвертации валют, ответов ИИ и просмотра долгов стримера. Бот также
+        автоматически переводит английские сообщения и конвертирует валюты.</p>
     </section>
 
     <div class="toolbar">
-            <div class="search-box">
+      <div class="search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input id="searchInput" type="text" class="search-input" placeholder="Поиск команды или ключевого слова..." />
-            </div>
-        </div>
+        <input id="searchInput" type="text" class="search-input" placeholder="Поиск команды или функции..." />
+      </div>
+    </div>
 
     <div class="groups">
       <section class="group" data-group>
-        <div class="group-title"><div class="icon"><i class="fa-solid fa-brain"></i></div>Нейросеть</div>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-brain"></i></div>Нейросеть
+        </div>
         <div class="grid">
-          <article class="card command-card" data-keywords="llm ai нейросеть искусственный интеллект gpt gemini">
+          <article class="card command-card" data-keywords="llm ai нейросеть gpt gemini вопрос ответ">
             <div class="card-head">
               <div class="chip"><i class="fa-solid fa-brain"></i></div>
               <div class="cmd">!ai</div>
             </div>
-            <div class="desc">Отправка запроса к нейросети Google Gemini прямо из чата. Учитывает контекст последних сообщений чата.</div>
+            <div class="desc">Отправка запроса к нейросети Google Gemini. Учитывает контекст последних сообщений чата.
+            </div>
             <div class="badges">
               <span class="badge"><span class="dot"></span>Доступ: все</span>
-              <span class="badge warn"><span class="dot"></span>КД: 30с (обычные), 0с (админы)</span>
+              <span class="badge warn"><span class="dot"></span>КД: 30с (0с для админов)</span>
+              <span class="badge info"><span class="dot"></span>Лимит: ежедневный</span>
             </div>
             <div class="examples">
               <h5>Примеры</h5>
               <div class="ex">!ai расскажи анекдот</div>
               <div class="ex">!ai что лучше: AMD или Intel?</div>
             </div>
-            <div class="note">Контекст: учитываются недавние сообщения чата (до 20 последних, с ограничением по количеству сообщений от одного пользователя).</div>
           </article>
         </div>
       </section>
 
       <section class="group" data-group>
-        <div class="group-title"><div class="icon"><i class="fa-solid fa-money-bill-wave"></i></div>Валюта и конвертация</div>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-money-bill-wave"></i></div>Валюта и конвертация
+        </div>
         <div class="grid">
-          <article class="card command-card" data-keywords="курс валют валюта currency btc usd eur">
+          <article class="card command-card" data-keywords="курс валют btc usd eur биткоин доллар евро рубль">
             <div class="card-head">
               <div class="chip"><i class="fa-solid fa-chart-line"></i></div>
               <div class="cmd">!курс</div>
             </div>
-            <div class="desc">Показывает текущие курсы валют (USD, EUR, BTC и др.).</div>
+            <div class="desc">Показывает текущие курсы валют (USD, EUR, BTC).</div>
             <div class="badges">
               <span class="badge"><span class="dot"></span>Доступ: все</span>
-              <span class="badge"><span class="dot"></span>КД: нет</span>
             </div>
             <div class="examples">
               <h5>Пример</h5>
               <div class="ex">!курс</div>
-                    </div>
+            </div>
           </article>
 
-          <article class="card command-card" data-keywords="доллар usd конвертация обмен p2p">
+          <article class="card command-card" data-keywords="доллар usd конвертация обмен p2p рубль">
             <div class="card-head">
               <div class="chip"><i class="fa-solid fa-dollar-sign"></i></div>
               <div class="cmd">!p2p</div>
-                    </div>
+            </div>
             <div class="desc">Конвертирует сумму между рублями и долларами.</div>
             <div class="badges">
               <span class="badge"><span class="dot"></span>Доступ: все</span>
-              <span class="badge"><span class="dot"></span>КД: нет</span>
-                </div>
+            </div>
             <div class="examples">
               <h5>Примеры</h5>
-              <div class="ex">!p2p 100Р — конвертирует 100 рублей в доллары</div>
-              <div class="ex">!p2p 50Д — конвертирует 50 долларов в рубли</div>
+              <div class="ex">!p2p 100Р — 100₽ → $</div>
+              <div class="ex">!p2p 50Д — 50$ → ₽</div>
             </div>
           </article>
         </div>
       </section>
 
       <section class="group" data-group>
-        <div class="group-title"><div class="icon"><i class="fa-solid fa-clapperboard"></i></div>Клипы</div>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-clapperboard"></i></div>Клипы
+        </div>
         <div class="grid">
-          <article class="card command-card" data-keywords="clip клип клипы twitch">
+          <article class="card command-card" data-keywords="clip клип twitch запись момент">
             <div class="card-head">
               <div class="chip"><i class="fa-solid fa-scissors"></i></div>
               <div class="cmd">!клип</div>
             </div>
             <div class="desc">Создаёт клип с текущей трансляции.</div>
             <div class="badges">
-              <span class="badge"><span class="dot"></span>Доступ: все (по умолчанию)</span>
-              <span class="badge warn"><span class="dot"></span>КД: 60с (обычные), 3с (админы)</span>
-                    </div>
+              <span class="badge"><span class="dot"></span>Доступ: все</span>
+              <span class="badge warn"><span class="dot"></span>КД: 60с (3с для админов)</span>
+            </div>
             <div class="examples">
-              <h5>Примеры</h5>
+              <h5>Пример</h5>
               <div class="ex">!клип</div>
-                </div>
-                
+            </div>
           </article>
         </div>
       </section>
 
       <section class="group" data-group>
-        <div class="group-title"><div class="icon"><i class="fa-solid fa-link"></i></div>Социальные сети и ссылки</div>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-list-check"></i></div>Долги стримера
+        </div>
         <div class="grid">
-          <article class="card command-card" data-keywords="telegram телеграм телега tg">
+          <article class="card command-card" data-keywords="долги debts обещания список задачи">
+            <div class="card-head">
+              <div class="chip"><i class="fa-solid fa-clipboard-list"></i></div>
+              <div class="cmd">!долги</div>
+            </div>
+            <div class="desc">Показывает список "долгов" — обещаний и задач стримера.</div>
+            <div class="badges">
+              <span class="badge"><span class="dot"></span>Доступ: все</span>
+              <span class="badge warn"><span class="dot"></span>КД: 60с</span>
+            </div>
+            <div class="examples">
+              <h5>Примеры</h5>
+              <div class="ex">!долги</div>
+              <div class="ex">!debts</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="group" data-group>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-link"></i></div>Ссылки
+        </div>
+        <div class="grid">
+          <article class="card command-card" data-keywords="telegram телеграм tg">
             <div class="card-head">
               <div class="chip"><i class="fab fa-telegram"></i></div>
               <div class="cmd">!tg</div>
             </div>
-            <div class="desc">Выдаёт ссылку на Telegram-канал.</div>
+            <div class="desc">Ссылка на Telegram-канал.</div>
             <div class="badges">
               <span class="badge"><span class="dot"></span>Доступ: все</span>
-              <span class="badge"><span class="dot"></span>КД: нет</span>
-                    </div>
-            <div class="examples">
-              <h5>Пример</h5>
-              <div class="ex">!tg</div>
-                    </div>
+            </div>
           </article>
 
-          <article class="card command-card" data-keywords="shop магазин шоп">
+          <article class="card command-card" data-keywords="shop магазин шоп мерч">
             <div class="card-head">
               <div class="chip"><i class="fa-solid fa-cart-shopping"></i></div>
               <div class="cmd">!shop</div>
-                </div>
-            <div class="desc">Выдаёт ссылку на магазин.</div>
+            </div>
+            <div class="desc">Ссылка на магазин.</div>
             <div class="badges">
               <span class="badge"><span class="dot"></span>Доступ: все</span>
-              <span class="badge"><span class="dot"></span>КД: нет</span>
             </div>
-            <div class="examples">
-              <h5>Пример</h5>
-              <div class="ex">!shop</div>
-        </div>
           </article>
-
-          
-                    </div>
+        </div>
       </section>
 
       <section class="group" data-group>
-        <div class="group-title"><div class="icon"><i class="fa-solid fa-reply"></i></div>Автоответы</div>
-        <div class="grid">
-          <article class="card">
-            <div class="card-head">
-              <div class="chip"><i class="fa-solid fa-comments"></i></div>
-              <div class="cmd">Автоматические ответы бота</div>
-                    </div>
-            <div class="desc">Бот может автоматически отвечать в чате, используя контекст последних сообщений. По умолчанию срабатывает на каждое 20‑е сообщение.</div>
-            <div class="badges">
-              <span class="badge"><span class="dot"></span>Интервал: 20 сообщений (настраивается)</span>
-              <span class="badge"><span class="dot"></span>Источник: контекст чата</span>
-                </div>
-          </article>
-            </div>
-      </section>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>Автоматические функции
         </div>
+        <div class="grid">
+          <article class="card command-card" data-keywords="перевод translate english русский автоперевод">
+            <div class="card-head">
+              <div class="chip auto"><i class="fa-solid fa-language"></i></div>
+              <div class="cmd">🌐 Автоперевод</div>
+            </div>
+            <div class="desc">Бот автоматически переводит английские сообщения на русский язык.</div>
+            <div class="badges">
+              <span class="badge success"><span class="dot"></span>Автоматически</span>
+            </div>
+            <div class="note">Ответ отображается как: <code>[Ru]: перевод</code></div>
+          </article>
 
-    
+          <article class="card command-card" data-keywords="конвертация валюта авто деньги рубли доллары">
+            <div class="card-head">
+              <div class="chip auto"><i class="fa-solid fa-coins"></i></div>
+              <div class="cmd">💱 Авто-конвертация</div>
+            </div>
+            <div class="desc">Бот распознаёт суммы в сообщениях и автоматически конвертирует валюты.</div>
+            <div class="badges">
+              <span class="badge success"><span class="dot"></span>Автоматически</span>
+            </div>
+            <div class="examples">
+              <h5>Распознаёт</h5>
+              <div class="ex">"потратил 50к рублей" → $ эквивалент</div>
+              <div class="ex">"стоит 200$" → ₽ эквивалент</div>
+            </div>
+            <div class="note">Поддержка: к/k, кк/kk, рублей, долларов, евро</div>
+          </article>
+
+          <article class="card command-card" data-keywords="faq ответы вопросы автоответ">
+            <div class="card-head">
+              <div class="chip auto"><i class="fa-solid fa-comments"></i></div>
+              <div class="cmd">❓ FAQ-ответы</div>
+            </div>
+            <div class="desc">Бот отвечает на часто задаваемые вопросы при совпадении ключевых слов.</div>
+            <div class="badges">
+              <span class="badge success"><span class="dot"></span>Автоматически</span>
+            </div>
+          </article>
+
+
+        </div>
+      </section>
+
+      <section class="group" data-group>
+        <div class="group-title">
+          <div class="icon"><i class="fa-solid fa-gift"></i></div>Розыгрыши
+        </div>
+        <div class="grid">
+          <article class="card command-card" data-keywords="розыгрыш giveaway приз участие roll">
+            <div class="card-head">
+              <div class="chip giveaway"><i class="fa-solid fa-trophy"></i></div>
+              <div class="cmd">🎉 Участие в розыгрышах</div>
+            </div>
+            <div class="desc">Когда стример запускает розыгрыш, напишите ключевое слово чтобы участвовать.</div>
+            <div class="badges">
+              <span class="badge"><span class="dot"></span>Доступ: все</span>
+              <span class="badge info"><span class="dot"></span>Ключевое слово в чате</span>
+            </div>
+            <div class="examples">
+              <h5>Как участвовать</h5>
+              <div class="ex">Напишите "участвую" (или другое ключевое слово)</div>
+            </div>
+            <div class="note">Бот объявит ключевое слово и приз при старте розыгрыша</div>
+          </article>
+        </div>
+      </section>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const searchInput = document.getElementById('searchInput');
-      const cards = Array.from(document.querySelectorAll('.command-card'));
-      const groups = Array.from(document.querySelectorAll('[data-group]'));
+    <footer>Delovoyden Bot © 2026</footer>
+  </div>
 
-      function applyFilter(term) {
-        const q = term.toLowerCase().trim();
-        cards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          const keys = (card.getAttribute('data-keywords') || '').toLowerCase();
-          const visible = !q || text.includes(q) || keys.includes(q);
-          card.style.display = visible ? '' : 'none';
-        });
-                groups.forEach(group => {
-          const anyVisible = Array.from(group.querySelectorAll('.command-card')).some(c => c.style.display !== 'none');
-                    group.style.display = anyVisible ? '' : 'none';
-                });
-      }
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.command-card');
+    const groups = document.querySelectorAll('[data-group]');
 
-      searchInput.addEventListener('input', () => applyFilter(searchInput.value));
-        });
-    </script>
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const keys = (card.dataset.keywords || '').toLowerCase();
+        card.style.display = (!q || text.includes(q) || keys.includes(q)) ? '' : 'none';
+      });
+      groups.forEach(group => {
+        const visible = [...group.querySelectorAll('.command-card')].some(c => c.style.display !== 'none');
+        group.style.display = visible ? '' : 'none';
+      });
+    });
+  </script>
 </body>
-</html> 
 
-
+</html>
