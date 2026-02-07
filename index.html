@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delovoyden</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0c0c0f;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .gradient-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Subtle floating orbs */
+        .liquid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+        }
+
+        .blob.b1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            top: -200px;
+            left: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .blob.b2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            bottom: -150px;
+            right: -100px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        .blob.b3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 22s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 10px) scale(1.02);
+            }
+        }
+
+        .particles {
+            display: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        /* Title */
+        .title-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title-section h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+        }
+
+        .title-section p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+        }
+
+        /* Cards Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card */
+        .platform-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .platform-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Icon */
+        .platform-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .platform-card:hover .platform-icon {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Platform Colors */
+        .instagram .platform-icon {
+            color: #e1306c;
+        }
+
+        .instagram:hover .platform-icon {
+            background: rgba(225, 48, 108, 0.15);
+            box-shadow: 0 0 40px rgba(225, 48, 108, 0.3);
+        }
+
+        .twitch .platform-icon {
+            color: #9146ff;
+        }
+
+        .twitch:hover .platform-icon {
+            background: rgba(145, 70, 255, 0.15);
+            box-shadow: 0 0 40px rgba(145, 70, 255, 0.3);
+        }
+
+        .telegram .platform-icon {
+            color: #0088cc;
+        }
+
+        .telegram:hover .platform-icon {
+            background: rgba(0, 136, 204, 0.15);
+            box-shadow: 0 0 40px rgba(0, 136, 204, 0.3);
+        }
+
+        .donationalerts .platform-icon {
+            color: #f57b20;
+        }
+
+        .donationalerts:hover .platform-icon {
+            background: rgba(245, 123, 32, 0.15);
+            box-shadow: 0 0 40px rgba(245, 123, 32, 0.3);
+        }
+
+        .vk .platform-icon {
+            color: #4a76a8;
+        }
+
+        .vk:hover .platform-icon {
+            background: rgba(74, 118, 168, 0.15);
+            box-shadow: 0 0 40px rgba(74, 118, 168, 0.3);
+        }
+
+        .platform-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .platform-username {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Button */
+        .visit-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card:hover .visit-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .logo {
+                font-size: 2.2rem;
+            }
+
+            header {
+                padding: 1.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .dashboard {
+                gap: 1rem;
+            }
+
+            .platform-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="gradient-bg"></div>
+    <div class="liquid-bg" aria-hidden="true">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+    </div>
+    <div class="particles" aria-hidden="true">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <h1 class="logo">Delovoyden</h1>
+            </div>
+        </header>
+
+        <div class="title-section">
+            <h2>Социальные сети</h2>
+            <p>Выберите платформу, чтобы перейти на официальную страницу</p>
+        </div>
+
+        <div class="dashboard">
+            <a href="https://www.instagram.com/delovoyden/" target="_blank" class="platform-card instagram">
+                <div class="platform-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <h3 class="platform-name">Instagram</h3>
+                <p class="platform-username">@delovoyden</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://www.twitch.tv/delovoyden_" target="_blank" class="platform-card twitch">
+                <div class="platform-icon">
+                    <i class="fab fa-twitch"></i>
+                </div>
+                <h3 class="platform-name">Twitch</h3>
+                <p class="platform-username">@delovoyden_</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://t.me/DelovoyDenBeton" target="_blank" class="platform-card telegram">
+                <div class="platform-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <h3 class="platform-name">Telegram</h3>
+                <p class="platform-username">@DelovoyDenBeton</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+
+            <a href="https://www.donationalerts.com/r/delovoyden_vor" target="_blank"
+                class="platform-card donationalerts">
+                <div class="platform-icon">
+                    <i class="fas fa-donate"></i>
+                </div>
+                <h3 class="platform-name">DonationAlerts</h3>
+                <p class="platform-username">@delovoyden_vor</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Поддержать
+                </div>
+            </a>
+
+            <a href="https://vk.com/delovoyden" target="_blank" class="platform-card vk">
+                <div class="platform-icon">
+                    <i class="fab fa-vk"></i>
+                </div>
+                <h3 class="platform-name">VK</h3>
+                <p class="platform-username">@delovoyden</p>
+                <div class="visit-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Перейти
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+
+    <footer>
+        <p></p>
+    </footer>
+
+
+
+</body>
+
+</html>
